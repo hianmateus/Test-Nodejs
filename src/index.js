@@ -3,23 +3,27 @@ const uuid = require('uuid')
 
 const app = express()
 const PORT = 3001
-
-
-app.listen(PORT, () => {
-    console.log(`App online na porta ${PORT}`)
-})
+app.use(express.json())
 
 
 const users = []
 
 app.get('/users', (request, response) => {
+
     return response.json(users)
 })
 
 app.post('/users', (request, response) => {
-    const { name, age } = request.body;
+    const { name, age } = request.body
 
-    console.log(uuid.v4())
+    const user = { id: uuid.v4(), name, age }
 
-    return response.json(users)
+    users.push(user)
+
+    return response.json(user)
 })
+
+app.listen(PORT, () => {
+    console.log(`App online na porta ${PORT}`)
+})
+
